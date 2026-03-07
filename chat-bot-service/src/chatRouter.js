@@ -1,5 +1,6 @@
 import express from "express";
 import GeminiProvider from "./geminiProvider.js";
+import RagProvider from "./ragProvider.js";
 
 const router = express.Router();
 
@@ -14,15 +15,15 @@ router.post("/chat", async (req, res) => {
       process.env.GEMINI_API_KEY,
       process.env.GEMINI_MODEL,
     );
-    const response = await gemini.generateResponse(message);
-    console.log(`generated response: ${response}`);
 
-    res.json({ reply: response });
+    // const prompt = RagProvider.preparePrompt(message);
+    // console.log({ prompt });
+    const ragResponse = await gemini.generateResponse(message);
+    console.log({ ragResponse });
+    res.json({ reply: ragResponse });
   } catch (error) {
     console.error("Error generating response:", error);
-    res
-      .status(500)
-      .json({ error: "Internal Server Error", message: error.message });
+    res.status(500).json({ error: "Internal Server Error", message: error });
   }
 });
 

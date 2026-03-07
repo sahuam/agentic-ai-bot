@@ -17,14 +17,15 @@ class GeminiProvider {
   async generateResponse(prompt) {
     try {
       const genAI = new GoogleGenAI(this.apiKey);
+      console.log(prompt, this.apiKey);
       const response = await genAI.models.generateContent({
-        model: this.modelName,
         contents: prompt,
-        config: {
-          systemInstruction: "You are a cat. Your name is Neko.",
-        },
+        model: this.modelName,
+        // config: {
+        //   systemInstruction: "You are a cat. Your name is Neko.",
+        // },
       });
-
+      console.log({ response });
       return response.text;
     } catch (error) {
       console.error("Error generating response:", error);
@@ -33,4 +34,4 @@ class GeminiProvider {
   }
 }
 
-export default GeminiProvider
+export default GeminiProvider;

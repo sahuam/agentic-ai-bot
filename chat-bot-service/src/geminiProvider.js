@@ -25,7 +25,6 @@ class GeminiProvider {
         //   systemInstruction: "You are a cat. Your name is Neko.",
         // },
       });
-      console.log({ response });
       return response.text;
     } catch (error) {
       console.error("Error generating response:", error);

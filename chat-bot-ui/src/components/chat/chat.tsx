@@ -3,6 +3,7 @@ import "./chat.css";
 import ChatService from "../../utils/chat-service";
 import { useComponentInit } from "../../utils/initialHook";
 import type { Message } from "../../interfaces/message";
+import { LoadingDots } from "../common/Loader";
 
 const chatService = new ChatService();
 
@@ -22,14 +23,17 @@ function Chat() {
         { id: 1, message: text, sender: "user" },
       ]);
       if (input.trim() !== "") {
-        setInput("");
-        const { data }: { data: string } =
-          await chatService.sendMessageToLLM(text);
         init.setLoading(true);
-        // const { data } = await chatService.dummySendMessage();
+        init.setError("");
+        setInput("");
+        const { reply }: { reply: string } =
+          await chatService.sendMessageToLLM(text);
+
+        // const { reply } = await chatService.dummySendMessage();
+        console.log({ reply });
         setMessages((prev) => [
           ...prev,
-          { id: 2, message: data, sender: "bot" },
+          { id: 2, message: reply || "Something went wrong", sender: "bot" },
         ]);
       }
     } catch (error) {
@@ -79,7 +83,9 @@ function Chat() {
         ))}
         {init.isLoading && (
           <div className={`message-context receive-text-skeleton`}>
-            <span className="sender">Bot is typing...</span>
+            <span className="sender">
+              Bot is typing <LoadingDots />
+            </span>
           </div>
         )}
       </div>

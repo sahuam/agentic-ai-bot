@@ -19,7 +19,6 @@ router.post("/chat", async (req, res) => {
     // const prompt = RagProvider.preparePrompt(message);
     // console.log({ prompt });
     const ragResponse = await gemini.generateResponse(message);
-    console.log({ ragResponse });
     res.json({ reply: ragResponse });
   } catch (error) {
     console.error("Error generating response:", error);

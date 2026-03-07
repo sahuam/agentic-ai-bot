@@ -1,0 +1,14 @@
+.loading-dots i {
+  color: var(--brand-primary-color);
+  animation: loaderDotAnimation 1s linear infinite;
+}
+
+@keyframes loaderDotAnimation {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}

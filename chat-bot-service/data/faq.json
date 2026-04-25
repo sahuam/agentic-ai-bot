@@ -1,0 +1,42 @@
+[
+  {
+    "question": "How do I place an order?",
+    "answer": "Browse products, add items to your cart, and proceed to checkout where you can enter shipping and payment details."
+  },
+  {
+    "question": "What payment methods are accepted?",
+    "answer": "We accept credit/debit cards, net banking, UPI, and popular digital wallets."
+  },
+  {
+    "question": "How can I track my order?",
+    "answer": "Once your order is shipped, you will receive a tracking link via email or SMS to monitor delivery status."
+  },
+  {
+    "question": "What is the estimated delivery time?",
+    "answer": "Delivery usually takes 3–7 business days depending on your location and product availability."
+  },
+  {
+    "question": "Can I cancel or modify my order?",
+    "answer": "Orders can be canceled or modified before they are shipped. Once shipped, cancellation is not possible."
+  },
+  {
+    "question": "What is your return policy?",
+    "answer": "We offer a 7-day return window for eligible products. Items must be unused and in original packaging."
+  },
+  {
+    "question": "Do you offer international shipping?",
+    "answer": "Currently, we ship only within India. International shipping options will be available soon."
+  },
+  {
+    "question": "How do I apply discount codes?",
+    "answer": "You can enter discount codes during checkout in the 'Apply Coupon' section."
+  },
+  {
+    "question": "Is my payment information secure?",
+    "answer": "Yes, we use SSL encryption and trusted payment gateways to ensure your data is safe."
+  },
+  {
+    "question": "How can I contact customer support?",
+    "answer": "You can reach us via email at support@example.com or call our helpline at +91-XXXXXXXXXX."
+  }
+]

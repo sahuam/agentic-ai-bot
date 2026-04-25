@@ -4,6 +4,7 @@ import ChatService from "../../utils/chat-service";
 import { useComponentInit } from "../../utils/initialHook";
 import type { Message } from "../../interfaces/message";
 import { LoadingDots } from "../common/Loader";
+import { useMutation } from "@tanstack/react-query";
 
 const chatService = new ChatService();
 
@@ -13,35 +14,36 @@ function Chat() {
   const [input, setInput] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const sendMessage = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    if (input.trim() === "") return;
-    try {
-      const text = input;
-      setMessages((prev) => [
-        ...prev,
-        { id: 1, message: text, sender: "user" },
-      ]);
-      if (input.trim() !== "") {
-        init.setLoading(true);
-        init.setError("");
-        setInput("");
-        const { reply }: { reply: string } =
-          await chatService.sendMessageToLLM(text);
+  const {
+    mutate: sendMessage,
+    isPending,
+    isError,
+  } = useMutation({
+    mutationFn: (message: string) => chatService.dummySendMessage(message),
+  });
 
-        // const { reply } = await chatService.dummySendMessage();
-        console.log({ reply });
-        setMessages((prev) => [
-          ...prev,
-          { id: 2, message: reply || "Something went wrong", sender: "bot" },
-        ]);
-      }
-    } catch (error) {
-      console.log(error);
-      init.setError("Something went wrong");
-    } finally {
-      init.setLoading(false);
+  const handleSendMessage = (e: SyntheticEvent) => {
+    e.preventDefault();
+    if (input.trim() === "") {
+      init.setError("Message cannot be empty");
+      return;
     }
+    setMessages((prev) => [
+      ...prev,
+      { sender: "user", message: input, id: Date.now() },
+    ]);
+    sendMessage(input, {
+      onSuccess: (data) => {
+        setMessages((prev) => [...prev, { ...data }]);
+      },
+      onError: (error) => {
+        init.setError(
+          (error as Message)?.message ||
+            "An error occurred while sending the message.",
+        );
+      },
+    });
+    setInput("");
   };
 
   return (
@@ -81,7 +83,7 @@ function Chat() {
             {message.message}
           </div>
         ))}
-        {init.isLoading && (
+        {isPending && (
           <div className={`message-context receive-text-skeleton`}>
             <span className="sender">
               Bot is typing <LoadingDots />
@@ -89,7 +91,7 @@ function Chat() {
           </div>
         )}
       </div>
-      {init.error && <div className="error">{init.error}</div>}
+      {isError && <div className="error">{init.error}</div>}
 
       <div className="chat-footer">
         <form>
@@ -100,7 +102,11 @@ function Chat() {
             placeholder="Type a message"
             onChange={(e) => setInput(e.target.value)}
           />
-          <button className="send" onClick={sendMessage}>
+          <button
+            className="send"
+            onClick={handleSendMessage}
+            disabled={isPending}
+          >
             <i className="bi bi-send-fill"></i>
           </button>
         </form>

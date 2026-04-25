@@ -45,6 +45,8 @@
   border-radius: 0.5rem;
   position: relative;
   margin-bottom: 8px;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 .chat-body .message-context.send-text {
